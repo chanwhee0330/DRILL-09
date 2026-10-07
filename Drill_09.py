@@ -10,6 +10,10 @@ RESOURCE_DIR = Path(__file__).resolve().parent
 FRAME_WIDTH = 100
 FRAME_HEIGHT = 100
 FRAME_COUNT = 8
+ARROW_KEYS = {
+    pico2d.SDLK_LEFT, pico2d.SDLK_RIGHT,
+    pico2d.SDLK_UP, pico2d.SDLK_DOWN,
+}
 
 
 class Boy:
@@ -18,6 +22,7 @@ class Boy:
         self.x = CANVAS_WIDTH / 2
         self.y = CANVAS_HEIGHT / 2
         self.frame = 0
+        self.pressed_keys = set()
 
     def draw(self):
         self.image.clip_draw(
