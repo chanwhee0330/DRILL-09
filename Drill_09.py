@@ -10,6 +10,7 @@ RESOURCE_DIR = Path(__file__).resolve().parent
 FRAME_WIDTH = 100
 FRAME_HEIGHT = 100
 FRAME_COUNT = 8
+MOVE_SPEED = 4.0
 ARROW_KEYS = {
     pico2d.SDLK_LEFT, pico2d.SDLK_RIGHT,
     pico2d.SDLK_UP, pico2d.SDLK_DOWN,
@@ -25,6 +26,7 @@ class Boy:
         self.pressed_keys = set()
         self.dir_x = 0
         self.dir_y = 0
+        self.speed = MOVE_SPEED
 
     def handle_event(self, event):
         if event.type == pico2d.SDL_KEYDOWN and event.key in ARROW_KEYS:
@@ -41,6 +43,7 @@ class Boy:
             int(pico2d.SDLK_UP in self.pressed_keys)
             - int(pico2d.SDLK_DOWN in self.pressed_keys)
         )
+        self.x += self.dir_x * self.speed
 
     def draw(self):
         self.image.clip_draw(
