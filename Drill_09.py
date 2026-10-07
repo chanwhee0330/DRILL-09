@@ -108,6 +108,8 @@ def main():
                     if event.key == pico2d.SDLK_ESCAPE:
                         running = False
                 boy.handle_event(event)
+            if not running:
+                break
             boy.update(dt)
             pico2d.clear_canvas()
             tuk_ground.draw(
