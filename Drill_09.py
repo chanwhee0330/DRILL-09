@@ -14,6 +14,7 @@ FRAME_HEIGHT = 100
 FRAME_COUNT = 8
 MOVE_SPEED = 240.0
 ANIMATION_FPS = 8.0
+MAX_FRAME_TIME = 0.1
 LEFT = "LEFT"
 RIGHT = "RIGHT"
 IDLE = "IDLE"
@@ -97,7 +98,7 @@ def main():
         previous_time = perf_counter()
         while running:
             current_time = perf_counter()
-            dt = current_time - previous_time
+            dt = min(max(current_time - previous_time, 0.0), MAX_FRAME_TIME)
             previous_time = current_time
             for event in pico2d.get_events():
                 if event.type == pico2d.SDL_QUIT:
