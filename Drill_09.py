@@ -27,6 +27,8 @@ class Boy:
     def handle_event(self, event):
         if event.type == pico2d.SDL_KEYDOWN and event.key in ARROW_KEYS:
             self.pressed_keys.add(event.key)
+        elif event.type == pico2d.SDL_KEYUP and event.key in ARROW_KEYS:
+            self.pressed_keys.discard(event.key)
 
     def draw(self):
         self.image.clip_draw(
