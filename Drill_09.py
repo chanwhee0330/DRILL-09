@@ -58,7 +58,10 @@ class Boy:
             int(pico2d.SDLK_UP in self.pressed_keys)
             - int(pico2d.SDLK_DOWN in self.pressed_keys)
         )
-        self.state = MOVE if self.dir_x or self.dir_y else IDLE
+        next_state = MOVE if self.dir_x or self.dir_y else IDLE
+        if next_state != self.state:
+            self.animation_time = 0.0
+        self.state = next_state
         if self.dir_x < 0:
             self.facing = LEFT
         elif self.dir_x > 0:
