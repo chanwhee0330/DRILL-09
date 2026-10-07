@@ -1,6 +1,7 @@
 """Drill 9: move the boy with the arrow keys."""
 
 from pathlib import Path
+from time import perf_counter
 
 import pico2d
 
@@ -10,7 +11,7 @@ RESOURCE_DIR = Path(__file__).resolve().parent
 FRAME_WIDTH = 100
 FRAME_HEIGHT = 100
 FRAME_COUNT = 8
-MOVE_SPEED = 4.0
+MOVE_SPEED = 240.0
 ANIMATION_FPS = 8.0
 LEFT = "LEFT"
 RIGHT = "RIGHT"
@@ -49,7 +50,7 @@ class Boy:
         elif event.type == pico2d.SDL_KEYUP and event.key in ARROW_KEYS:
             self.pressed_keys.discard(event.key)
 
-    def update(self):
+    def update(self, dt):
         self.dir_x = (
             int(pico2d.SDLK_RIGHT in self.pressed_keys)
             - int(pico2d.SDLK_LEFT in self.pressed_keys)
@@ -66,9 +67,9 @@ class Boy:
             self.facing = LEFT
         elif self.dir_x > 0:
             self.facing = RIGHT
-        self.x += self.dir_x * self.speed
-        self.y += self.dir_y * self.speed
-        self.animation_time += 1 / 60
+        self.x += self.dir_x * self.speed * dt
+        self.y += self.dir_y * self.speed * dt
+        self.animation_time += dt
         self.frame = int(self.animation_time * ANIMATION_FPS) % FRAME_COUNT
 
     def draw(self):
@@ -86,7 +87,11 @@ def main():
         character = pico2d.load_image(str(RESOURCE_DIR / "animation_sheet.png"))
         boy = Boy(character)
         running = True
+        previous_time = perf_counter()
         while running:
+            current_time = perf_counter()
+            dt = current_time - previous_time
+            previous_time = current_time
             for event in pico2d.get_events():
                 if event.type == pico2d.SDL_QUIT:
                     running = False
@@ -94,7 +99,7 @@ def main():
                     if event.key == pico2d.SDLK_ESCAPE:
                         running = False
                 boy.handle_event(event)
-            boy.update()
+            boy.update(dt)
             pico2d.clear_canvas()
             tuk_ground.draw(
                 CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2,
