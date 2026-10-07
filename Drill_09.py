@@ -23,12 +23,24 @@ class Boy:
         self.y = CANVAS_HEIGHT / 2
         self.frame = 0
         self.pressed_keys = set()
+        self.dir_x = 0
+        self.dir_y = 0
 
     def handle_event(self, event):
         if event.type == pico2d.SDL_KEYDOWN and event.key in ARROW_KEYS:
             self.pressed_keys.add(event.key)
         elif event.type == pico2d.SDL_KEYUP and event.key in ARROW_KEYS:
             self.pressed_keys.discard(event.key)
+
+    def update(self):
+        self.dir_x = (
+            int(pico2d.SDLK_RIGHT in self.pressed_keys)
+            - int(pico2d.SDLK_LEFT in self.pressed_keys)
+        )
+        self.dir_y = (
+            int(pico2d.SDLK_UP in self.pressed_keys)
+            - int(pico2d.SDLK_DOWN in self.pressed_keys)
+        )
 
     def draw(self):
         self.image.clip_draw(
@@ -52,6 +64,7 @@ def main():
                     if event.key == pico2d.SDLK_ESCAPE:
                         running = False
                 boy.handle_event(event)
+            boy.update()
             pico2d.clear_canvas()
             tuk_ground.draw(
                 CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2,
