@@ -13,6 +13,8 @@ FRAME_COUNT = 8
 MOVE_SPEED = 4.0
 LEFT = "LEFT"
 RIGHT = "RIGHT"
+IDLE = "IDLE"
+MOVE = "MOVE"
 ARROW_KEYS = {
     pico2d.SDLK_LEFT, pico2d.SDLK_RIGHT,
     pico2d.SDLK_UP, pico2d.SDLK_DOWN,
@@ -30,6 +32,7 @@ class Boy:
         self.dir_y = 0
         self.speed = MOVE_SPEED
         self.facing = RIGHT
+        self.state = IDLE
 
     def handle_event(self, event):
         if event.type == pico2d.SDL_KEYDOWN and event.key in ARROW_KEYS:
@@ -46,6 +49,7 @@ class Boy:
             int(pico2d.SDLK_UP in self.pressed_keys)
             - int(pico2d.SDLK_DOWN in self.pressed_keys)
         )
+        self.state = MOVE if self.dir_x or self.dir_y else IDLE
         if self.dir_x < 0:
             self.facing = LEFT
         elif self.dir_x > 0:
