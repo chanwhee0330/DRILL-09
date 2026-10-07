@@ -1,5 +1,6 @@
 """Drill 9: move the boy with the arrow keys."""
 
+from math import hypot
 from pathlib import Path
 from time import perf_counter
 
@@ -67,8 +68,10 @@ class Boy:
             self.facing = LEFT
         elif self.dir_x > 0:
             self.facing = RIGHT
-        self.x += self.dir_x * self.speed * dt
-        self.y += self.dir_y * self.speed * dt
+        length = hypot(self.dir_x, self.dir_y)
+        if length:
+            self.x += self.dir_x / length * self.speed * dt
+            self.y += self.dir_y / length * self.speed * dt
         self.animation_time += dt
         self.frame = int(self.animation_time * ANIMATION_FPS) % FRAME_COUNT
 
