@@ -15,6 +15,7 @@ FRAME_COUNT = 8
 MOVE_SPEED = 240.0
 ANIMATION_FPS = 8.0
 MAX_FRAME_TIME = 0.1
+TARGET_FPS = 60
 LEFT = "LEFT"
 RIGHT = "RIGHT"
 IDLE = "IDLE"
@@ -115,6 +116,9 @@ def main():
             )
             boy.draw()
             pico2d.update_canvas()
+            remaining = 1 / TARGET_FPS - (perf_counter() - current_time)
+            if remaining > 0:
+                pico2d.delay(remaining)
     finally:
         pico2d.close_canvas()
 
