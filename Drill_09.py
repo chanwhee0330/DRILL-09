@@ -4,7 +4,11 @@ import pico2d
 
 
 def main():
-    tuk_ground = pico2d.load_image("TUK_GROUND.png")
+    pico2d.open_canvas()
+    try:
+        tuk_ground = pico2d.load_image("TUK_GROUND.png")
+    finally:
+        pico2d.close_canvas()
 
 
 if __name__ == "__main__":
