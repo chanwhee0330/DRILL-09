@@ -18,6 +18,9 @@ def main():
             for event in pico2d.get_events():
                 if event.type == pico2d.SDL_QUIT:
                     running = False
+                elif event.type == pico2d.SDL_KEYDOWN:
+                    if event.key == pico2d.SDLK_ESCAPE:
+                        running = False
             pico2d.clear_canvas()
             tuk_ground.draw(
                 CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2,
