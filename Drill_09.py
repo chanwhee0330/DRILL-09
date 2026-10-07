@@ -7,6 +7,9 @@ import pico2d
 CANVAS_WIDTH = 1280
 CANVAS_HEIGHT = 1024
 RESOURCE_DIR = Path(__file__).resolve().parent
+FRAME_WIDTH = 100
+FRAME_HEIGHT = 100
+FRAME_COUNT = 8
 
 
 class Boy:
@@ -14,6 +17,13 @@ class Boy:
         self.image = image
         self.x = CANVAS_WIDTH / 2
         self.y = CANVAS_HEIGHT / 2
+        self.frame = 0
+
+    def draw(self):
+        self.image.clip_draw(
+            self.frame * FRAME_WIDTH, 3 * FRAME_HEIGHT,
+            FRAME_WIDTH, FRAME_HEIGHT, self.x, self.y,
+        )
 
 
 def main():
@@ -35,9 +45,7 @@ def main():
                 CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2,
                 CANVAS_WIDTH, CANVAS_HEIGHT,
             )
-            character.clip_draw(
-                0, 300, 100, 100, boy.x, boy.y,
-            )
+            boy.draw()
             pico2d.update_canvas()
     finally:
         pico2d.close_canvas()
