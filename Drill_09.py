@@ -15,6 +15,13 @@ LEFT = "LEFT"
 RIGHT = "RIGHT"
 IDLE = "IDLE"
 MOVE = "MOVE"
+# Rows are numbered from the bottom, as required by pico2d.clip_draw.
+ANIMATION_ROWS = {
+    (IDLE, RIGHT): 3,
+    (IDLE, LEFT): 2,
+    (MOVE, RIGHT): 1,
+    (MOVE, LEFT): 0,
+}
 ARROW_KEYS = {
     pico2d.SDLK_LEFT, pico2d.SDLK_RIGHT,
     pico2d.SDLK_UP, pico2d.SDLK_DOWN,
@@ -58,8 +65,9 @@ class Boy:
         self.y += self.dir_y * self.speed
 
     def draw(self):
+        row = ANIMATION_ROWS[(self.state, self.facing)]
         self.image.clip_draw(
-            self.frame * FRAME_WIDTH, 3 * FRAME_HEIGHT,
+            self.frame * FRAME_WIDTH, row * FRAME_HEIGHT,
             FRAME_WIDTH, FRAME_HEIGHT, self.x, self.y,
         )
 
