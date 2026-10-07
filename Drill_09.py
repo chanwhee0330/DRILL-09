@@ -89,11 +89,22 @@ class Boy:
         )
 
 
+def load_resources():
+    for name in ("TUK_GROUND.png", "animation_sheet.png"):
+        path = RESOURCE_DIR / name
+        if not path.is_file():
+            raise FileNotFoundError(f"Required game image is missing: {path}")
+    tuk_ground = pico2d.load_image(str(RESOURCE_DIR / "TUK_GROUND.png"))
+    character = pico2d.load_image(str(RESOURCE_DIR / "animation_sheet.png"))
+    if character.w < FRAME_WIDTH * FRAME_COUNT or character.h < FRAME_HEIGHT * 4:
+        raise ValueError("animation_sheet.png must contain eight 100x100 frames in four rows")
+    return tuk_ground, character
+
+
 def main():
     pico2d.open_canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
     try:
-        tuk_ground = pico2d.load_image(str(RESOURCE_DIR / "TUK_GROUND.png"))
-        character = pico2d.load_image(str(RESOURCE_DIR / "animation_sheet.png"))
+        tuk_ground, character = load_resources()
         boy = Boy(character)
         running = True
         previous_time = perf_counter()
