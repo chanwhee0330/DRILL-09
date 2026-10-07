@@ -24,6 +24,10 @@ class Boy:
         self.frame = 0
         self.pressed_keys = set()
 
+    def handle_event(self, event):
+        if event.type == pico2d.SDL_KEYDOWN and event.key in ARROW_KEYS:
+            self.pressed_keys.add(event.key)
+
     def draw(self):
         self.image.clip_draw(
             self.frame * FRAME_WIDTH, 3 * FRAME_HEIGHT,
@@ -45,6 +49,7 @@ def main():
                 elif event.type == pico2d.SDL_KEYDOWN:
                     if event.key == pico2d.SDLK_ESCAPE:
                         running = False
+                boy.handle_event(event)
             pico2d.clear_canvas()
             tuk_ground.draw(
                 CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2,
