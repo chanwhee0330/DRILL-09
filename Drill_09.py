@@ -13,6 +13,7 @@ def main():
     pico2d.open_canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
     try:
         tuk_ground = pico2d.load_image(str(RESOURCE_DIR / "TUK_GROUND.png"))
+        character = pico2d.load_image(str(RESOURCE_DIR / "animation_sheet.png"))
         running = True
         while running:
             for event in pico2d.get_events():
@@ -25,6 +26,9 @@ def main():
             tuk_ground.draw(
                 CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2,
                 CANVAS_WIDTH, CANVAS_HEIGHT,
+            )
+            character.clip_draw(
+                0, 300, 100, 100, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2,
             )
             pico2d.update_canvas()
     finally:
