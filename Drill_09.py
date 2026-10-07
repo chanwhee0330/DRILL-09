@@ -44,6 +44,7 @@ class Boy:
             - int(pico2d.SDLK_DOWN in self.pressed_keys)
         )
         self.x += self.dir_x * self.speed
+        self.y += self.dir_y * self.speed
 
     def draw(self):
         self.image.clip_draw(
