@@ -74,6 +74,8 @@ class Boy:
             self.y += self.dir_y / length * self.speed * dt
         half_width = FRAME_WIDTH / 2
         self.x = max(half_width, min(self.x, CANVAS_WIDTH - half_width))
+        half_height = FRAME_HEIGHT / 2
+        self.y = max(half_height, min(self.y, CANVAS_HEIGHT - half_height))
         self.animation_time += dt
         self.frame = int(self.animation_time * ANIMATION_FPS) % FRAME_COUNT
 
