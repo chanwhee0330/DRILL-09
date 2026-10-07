@@ -11,6 +11,7 @@ FRAME_WIDTH = 100
 FRAME_HEIGHT = 100
 FRAME_COUNT = 8
 MOVE_SPEED = 4.0
+ANIMATION_FPS = 8.0
 LEFT = "LEFT"
 RIGHT = "RIGHT"
 IDLE = "IDLE"
@@ -34,6 +35,7 @@ class Boy:
         self.x = CANVAS_WIDTH / 2
         self.y = CANVAS_HEIGHT / 2
         self.frame = 0
+        self.animation_time = 0.0
         self.pressed_keys = set()
         self.dir_x = 0
         self.dir_y = 0
@@ -63,6 +65,8 @@ class Boy:
             self.facing = RIGHT
         self.x += self.dir_x * self.speed
         self.y += self.dir_y * self.speed
+        self.animation_time += 1 / 60
+        self.frame = int(self.animation_time * ANIMATION_FPS) % FRAME_COUNT
 
     def draw(self):
         row = ANIMATION_ROWS[(self.state, self.facing)]
